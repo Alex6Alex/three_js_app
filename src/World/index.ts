@@ -1,62 +1,40 @@
-import * as THREE from 'three';
+import { createScene } from './components/scene';
+import { createCamera } from './components/camera';
+import { createGround } from './components/ground';
+import { createShop } from './components/shop';
+import { createHouse } from './components/house';
 
-import { FirstPersonControls } from 'three/addons/controls/FirstPersonControls.js';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { createControls } from './systems/controls';
+import { createRenderer } from './systems/renderer';
+import { Resizer } from './systems/Resizer';
+import { Loop } from './systems/Loop';
 
-import GrassTexture from '../textures/GrassTexture';
-import AppScene from '../Scene';
+export default class World {
+  private scene;
+  private controls;
+  private camera;
+  private renderer;
+  private loop;
 
-const clock = new THREE.Clock(true);
-let scene: THREE.Scene, controls: FirstPersonControls, camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer;
+  constructor(container: HTMLElement) {
+    this.camera = createCamera();
+    this.scene = createScene();
+    this.renderer = createRenderer();
+    container.append(this.renderer.domElement);
 
-export default function run(container: HTMLElement) {
-  init(container).then(animate);
-}
+    this.scene.add(createGround());
 
-async function init(container: HTMLElement) {
-  scene = new AppScene().load();
-  camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+    new Resizer(container, this.camera, this.renderer);
 
-  renderer = new THREE.WebGLRenderer();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  container.appendChild(renderer.domElement);
+    this.controls = createControls(this.camera, this.renderer);
 
-  const geometry = new THREE.BoxGeometry(250, 0, 250);
-  const material = new THREE.MeshBasicMaterial({ map: new GrassTexture().load() });
-  const cube = new THREE.Mesh(geometry, material);
+    this.loop = new Loop(this.scene, this.camera, this.renderer, this.controls);
 
-  scene.add(cube);
+    createShop(this.scene);
+    createHouse(this.scene); // TODO: not to pass scene?
+  }
 
-  camera.position.y = 1.6;
-
-  controls = new FirstPersonControls(camera, renderer.domElement);
-  controls.lookSpeed = 0.1;
-  controls.movementSpeed = 10;
-
-  const loader = new GLTFLoader();
-  loader.load('/models/the_old_curiosity_shop_2024/scene.gltf', (gltf) => {
-    gltf.scene.position.z -= 10;
-    gltf.scene.position.y -= 1.2;
-    scene.add(gltf.scene);
-  }, undefined, (error) => {
-    console.error(error);
-  });
-
-  loader.load('/models/latin_rock_house.glb', (glb) => {
-    glb.scene.position.x += 12;
-    glb.scene.position.z += 7;
-    glb.scene.position.y -= 0.15;
-    scene.add(glb.scene);
-  }, undefined, (error) => {
-    console.error(error);
-  });
-}
-
-function animate() {
-  requestAnimationFrame(animate);
-
-  controls.update(clock.getDelta());
-  camera.position.y = 1.6;
-
-  renderer.render(scene, camera);
+  render(): void {
+    this.loop.run();
+  }
 }

@@ -1,9 +1,9 @@
-import run from './World';
+import World from './World';
 
 function main() {
   const container = document.getElementById('container');
 
-  if (container) run(container)
+  if (container) new World(container).render();
 }
 
 main()
