@@ -7,8 +7,8 @@ async function loadShop() {
   const shop = shopData.scene.children[0];
 
   shop.position.set(0, -1.2, -10);
-  
+
   return { shop };
 }
 
-export { loadShop }
+export { loadShop };

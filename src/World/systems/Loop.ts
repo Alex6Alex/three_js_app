@@ -30,8 +30,8 @@ class Loop {
 
   private tick(): void {
     const delta = this.clock.getDelta();
-    this.subscribers.forEach(subsciber => subsciber.tick(delta));
+    this.subscribers.forEach((subsciber) => subsciber.tick(delta));
   }
 }
 
-export { Loop }
+export { Loop };

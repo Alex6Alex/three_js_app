@@ -13,4 +13,4 @@ function createCamera() {
   return camera;
 }
 
-export { WorldCamera, createCamera }
+export { WorldCamera, createCamera };

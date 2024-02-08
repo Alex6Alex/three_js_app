@@ -12,10 +12,16 @@ function createMaterial() {
   const textureLoader = new TextureLoader();
 
   const map = textureLoader.load('/assets/textures/harshbricks/albedo.png');
-  const normalMap = textureLoader.load('/assets/textures/harshbricks/normal.png');
-  const metalnessMap = textureLoader.load('/assets/textures/harshbricks/metalness.png');
+  const normalMap = textureLoader.load(
+    '/assets/textures/harshbricks/normal.png',
+  );
+  const metalnessMap = textureLoader.load(
+    '/assets/textures/harshbricks/metalness.png',
+  );
   const aoMap = textureLoader.load('/assets/textures/harshbricks/ao.png');
-  const roughnessMap = textureLoader.load('/assets/textures/harshbricks/roughness.png');
+  const roughnessMap = textureLoader.load(
+    '/assets/textures/harshbricks/roughness.png',
+  );
   // const displacementMap = textureLoader.load('/assets/textures/harshbricks/height.png');
 
   const material = new MeshStandardMaterial({
@@ -30,4 +36,4 @@ function createMaterial() {
   return material;
 }
 
-export { createTestCube }
+export { createTestCube };

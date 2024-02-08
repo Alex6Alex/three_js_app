@@ -27,4 +27,4 @@ async function loadBirds() {
   return { parrot, flamingo, stork };
 }
 
-export { loadBirds }
+export { loadBirds };

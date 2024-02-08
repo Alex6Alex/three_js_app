@@ -1,4 +1,4 @@
-import { GLTF } from "three/addons/loaders/GLTFLoader.js";
+import { GLTF } from 'three/addons/loaders/GLTFLoader.js';
 
 function setupModel(data: GLTF) {
   const model = data.scene.children[0];
@@ -6,4 +6,4 @@ function setupModel(data: GLTF) {
   return model;
 }
 
-export { setupModel }
+export { setupModel };

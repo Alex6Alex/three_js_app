@@ -1,15 +1,23 @@
 import { PerspectiveCamera, WebGLRenderer } from 'three';
 
 class Resizer {
-  constructor(container: HTMLElement, camera: PerspectiveCamera, renderer: WebGLRenderer) {
+  constructor(
+    container: HTMLElement,
+    camera: PerspectiveCamera,
+    renderer: WebGLRenderer,
+  ) {
     this.setSize(container, camera, renderer);
 
     window.addEventListener('resize', () => {
       this.setSize(container, camera, renderer);
-    })
+    });
   }
 
-  private setSize(container: HTMLElement, camera: PerspectiveCamera, renderer: WebGLRenderer): void {
+  private setSize(
+    container: HTMLElement,
+    camera: PerspectiveCamera,
+    renderer: WebGLRenderer,
+  ): void {
     camera.aspect = container.clientWidth / container.clientHeight;
     camera.updateProjectionMatrix();
 
@@ -18,4 +26,4 @@ class Resizer {
   }
 }
 
-export { Resizer }
+export { Resizer };

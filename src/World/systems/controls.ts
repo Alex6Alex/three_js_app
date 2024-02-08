@@ -16,4 +16,4 @@ function createControls(camera: Camera, renderer: WebGLRenderer) {
   return controls;
 }
 
-export { createControls }
+export { createControls };

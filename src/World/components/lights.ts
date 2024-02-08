@@ -9,4 +9,4 @@ function createLights() {
   return { mainLight, ambientLight };
 }
 
-export { createLights }
+export { createLights };

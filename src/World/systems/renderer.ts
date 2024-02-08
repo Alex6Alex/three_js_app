@@ -6,4 +6,4 @@ function createRenderer() {
   return renderer;
 }
 
-export { createRenderer }
+export { createRenderer };
