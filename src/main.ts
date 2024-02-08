@@ -1,9 +1,16 @@
 import World from './World';
 
-function main() {
+async function main(): Promise<void> {
   const container = document.getElementById('container');
 
-  if (container) new World(container).render();
+  if (!container) return;
+
+  const world = new World(container);
+  await world.init();
+
+  world.run();
 }
 
-main()
+main().catch((err) => {
+  console.error(err);
+});

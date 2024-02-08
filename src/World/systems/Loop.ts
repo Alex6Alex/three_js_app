@@ -1,29 +1,36 @@
-import { Camera, Scene, WebGLRenderer, Clock } from 'three';
+import { Scene, WebGLRenderer, Clock } from 'three';
 
-import { FirstPersonControls } from 'three/addons/controls/FirstPersonControls.js';
+import { WorldCamera } from '../components/camera';
 
 class Loop {
   private scene;
   private camera;
   private renderer;
-  private controls;
   private clock;
+  private subscribers: Tickable[];
 
-  constructor(scene: Scene, camera: Camera, renderer: WebGLRenderer, controls: FirstPersonControls) {
+  constructor(scene: Scene, camera: WorldCamera, renderer: WebGLRenderer) {
     this.scene = scene;
     this.camera = camera;
     this.renderer = renderer;
-    this.controls = controls;
+    this.subscribers = [];
     this.clock = new Clock(true);
   }
 
+  subscribe(...objects: { tick(d: number): void }[]): void {
+    this.subscribers.push(...objects);
+  }
+
   run(): void {
-    requestAnimationFrame(this.run.bind(this));
+    this.renderer.setAnimationLoop(() => {
+      this.tick();
+      this.renderer.render(this.scene, this.camera);
+    });
+  }
 
-    this.controls.update(this.clock.getDelta());
-    this.camera.position.y = 1.6;
-
-    this.renderer.render(this.scene, this.camera);
+  private tick(): void {
+    const delta = this.clock.getDelta();
+    this.subscribers.forEach(subsciber => subsciber.tick(delta));
   }
 }
 
