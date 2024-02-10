@@ -1,28 +1,24 @@
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-
 import { setupModel } from './setupModel';
+import { loadModelAsync } from '../../utils/pathResolvers';
 
 async function loadBirds() {
-  const loader = new GLTFLoader();
-
   const [parrotData, flamingoData, storkData] = await Promise.all([
-    loader.loadAsync('/assets/models/Parrot.glb'),
-    loader.loadAsync('/assets/models/Flamingo.glb'),
-    loader.loadAsync('/assets/models/Stork.glb'),
+    loadModelAsync('Parrot'),
+    loadModelAsync('Flamingo'),
+    loadModelAsync('Stork'),
   ]);
-  console.log(parrotData);
 
   const parrot = setupModel(parrotData);
-  parrot.scale.setScalar(0.01);
-  parrot.position.set(0, 2, -5);
+  parrot.model.scale.setScalar(0.01);
+  parrot.model.position.set(0, 2, -5);
 
   const flamingo = setupModel(flamingoData);
-  flamingo.scale.setScalar(0.01);
-  flamingo.position.set(-4, 2, -5);
+  flamingo.model.scale.setScalar(0.01);
+  flamingo.model.position.set(-4, 2, -5);
 
   const stork = setupModel(storkData);
-  stork.scale.setScalar(0.01);
-  stork.position.set(4, 2, -5);
+  stork.model.scale.setScalar(0.01);
+  stork.model.position.set(4, 2, -5);
 
   return { parrot, flamingo, stork };
 }

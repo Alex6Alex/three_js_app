@@ -2,7 +2,7 @@ import { createScene } from './components/scene';
 import { createCamera } from './components/camera';
 import { createLights } from './components/lights';
 import { createGround } from './components/ground';
-import { loadShop } from './components/shop';
+import { loadBuilding } from './components/building';
 import { loadHouse } from './components/house';
 import { createTestCube } from './components/test';
 import { loadBirds } from './components/birds';
@@ -14,34 +14,33 @@ import { Loop } from './systems/Loop';
 
 export default class World {
   private scene;
-  private controls;
-  private camera;
-  private renderer;
   private loop;
 
   constructor(container: HTMLElement) {
-    this.camera = createCamera();
     this.scene = createScene();
-    this.renderer = createRenderer();
-    container.append(this.renderer.domElement);
+
+    const { camera, onTick: cameraOnTick } = createCamera();
+    const renderer = createRenderer();
+    container.append(renderer.domElement);
 
     const { ambientLight, mainLight } = createLights();
     this.scene.add(createGround(), createTestCube(), mainLight, ambientLight);
 
-    new Resizer(container, this.camera, this.renderer);
+    new Resizer(container, camera, renderer);
 
-    this.controls = createControls(this.camera, this.renderer);
+    const { onTick: controlsOnTick } = createControls(camera, renderer);
 
-    this.loop = new Loop(this.scene, this.camera, this.renderer);
-    this.loop.subscribe(this.camera, this.controls);
+    this.loop = new Loop(this.scene, camera, renderer);
+    this.loop.subscribe(cameraOnTick, controlsOnTick);
   }
 
   async init() {
     const { parrot, flamingo, stork } = await loadBirds();
     const { house } = await loadHouse();
-    const { shop } = await loadShop();
+    const { building } = await loadBuilding();
 
-    this.scene.add(shop, house, parrot, flamingo, stork);
+    this.scene.add(building, house, parrot.model, flamingo.model, stork.model);
+    this.loop.subscribe(parrot.onTick, flamingo.onTick, stork.onTick);
   }
 
   run(): void {

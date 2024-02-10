@@ -7,6 +7,8 @@ import {
   Texture,
 } from 'three';
 
+import { pathToTexture } from '../utils/pathResolvers';
+
 function createGround() {
   const geometry = new PlaneGeometry(250, 250);
   const material = createMaterial();
@@ -21,20 +23,18 @@ function createMaterial() {
   const textureLoader = new TextureLoader();
 
   return new MeshStandardMaterial({
-    map: setWrapOpitons(
-      textureLoader.load('/assets/textures/meadow/albedo.png'),
-    ),
+    map: setWrapOpitons(textureLoader.load(pathToTexture('meadow/albedo'))),
     normalMap: setWrapOpitons(
-      textureLoader.load('/assets/textures/meadow/normal.png'),
+      textureLoader.load(pathToTexture('meadow/normal')),
     ),
     metalnessMap: setWrapOpitons(
-      textureLoader.load('/assets/textures/meadow/metallic.png'),
+      textureLoader.load(pathToTexture('meadow/metallic')),
     ),
-    aoMap: setWrapOpitons(textureLoader.load('/assets/textures/meadow/ao.png')),
+    aoMap: setWrapOpitons(textureLoader.load(pathToTexture('meadow/ao'))),
     roughnessMap: setWrapOpitons(
-      textureLoader.load('/assets/textures/meadow/roughness.png'),
+      textureLoader.load(pathToTexture('meadow/roughness')),
     ),
-    // displacementMap: setWrapOpitons(textureLoader.load('/assets/textures/meadow/height.png')),
+    // displacementMap: setWrapOpitons(textureLoader.load(pathToTexture('meadow/height'))),
     // wireframe: true,
   });
 }

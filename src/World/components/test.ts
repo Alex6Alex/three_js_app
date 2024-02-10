@@ -1,5 +1,7 @@
 import { BoxGeometry, Mesh, MeshStandardMaterial, TextureLoader } from 'three';
 
+import { pathToTexture } from '../utils/pathResolvers';
+
 function createTestCube() {
   const geometry = new BoxGeometry(2, 2, 2);
 
@@ -11,18 +13,16 @@ function createTestCube() {
 function createMaterial() {
   const textureLoader = new TextureLoader();
 
-  const map = textureLoader.load('/assets/textures/harshbricks/albedo.png');
-  const normalMap = textureLoader.load(
-    '/assets/textures/harshbricks/normal.png',
-  );
+  const map = textureLoader.load(pathToTexture('harshbricks/albedo'));
+  const normalMap = textureLoader.load(pathToTexture('harshbricks/normal'));
   const metalnessMap = textureLoader.load(
-    '/assets/textures/harshbricks/metalness.png',
+    pathToTexture('harshbricks/metalness'),
   );
-  const aoMap = textureLoader.load('/assets/textures/harshbricks/ao.png');
+  const aoMap = textureLoader.load(pathToTexture('harshbricks/ao'));
   const roughnessMap = textureLoader.load(
-    '/assets/textures/harshbricks/roughness.png',
+    pathToTexture('harshbricks/roughness'),
   );
-  // const displacementMap = textureLoader.load('/assets/textures/harshbricks/height.png');
+  // const displacementMap = textureLoader.load(pathToTexture('harshbricks/height'));
 
   const material = new MeshStandardMaterial({
     map,

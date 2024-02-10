@@ -1,6 +1,4 @@
-import { Scene, WebGLRenderer, Clock } from 'three';
-
-import { WorldCamera } from '../components/camera';
+import { Scene, WebGLRenderer, Clock, PerspectiveCamera } from 'three';
 
 class Loop {
   private scene;
@@ -9,7 +7,11 @@ class Loop {
   private clock;
   private subscribers: Tickable[];
 
-  constructor(scene: Scene, camera: WorldCamera, renderer: WebGLRenderer) {
+  constructor(
+    scene: Scene,
+    camera: PerspectiveCamera,
+    renderer: WebGLRenderer,
+  ) {
     this.scene = scene;
     this.camera = camera;
     this.renderer = renderer;
@@ -17,7 +19,7 @@ class Loop {
     this.clock = new Clock(true);
   }
 
-  subscribe(...objects: { tick(d: number): void }[]): void {
+  subscribe(...objects: Tickable[]): void {
     this.subscribers.push(...objects);
   }
 
@@ -30,7 +32,7 @@ class Loop {
 
   private tick(): void {
     const delta = this.clock.getDelta();
-    this.subscribers.forEach((subsciber) => subsciber.tick(delta));
+    this.subscribers.forEach((subsciber) => subsciber(delta));
   }
 }
 

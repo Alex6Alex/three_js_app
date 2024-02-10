@@ -1,3 +1,3 @@
 interface Tickable {
-  tick(delta?: number): void;
+  (delta: number): void;
 }
