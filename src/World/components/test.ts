@@ -6,6 +6,8 @@ function createTestCube() {
   const geometry = new BoxGeometry(2, 2, 2);
 
   const cube = new Mesh(geometry, createMaterial());
+  cube.castShadow = true;
+  cube.position.y = 1;
 
   return cube;
 }
@@ -30,7 +32,7 @@ function createMaterial() {
     metalnessMap,
     aoMap,
     roughnessMap,
-    // displacementMap
+    // displacementMap,
   });
 
   return material;

@@ -2,9 +2,11 @@ import { createScene } from './components/scene';
 import { createCamera } from './components/camera';
 import { createLights } from './components/lights';
 import { createGround } from './components/ground';
-import { loadBuilding } from './components/building';
-import { loadHouse } from './components/house';
+import { createSky } from './components/sky';
 import { createTestCube } from './components/test';
+
+import { loadBuilding } from './components/building';
+import { loadCar } from './components/car';
 import { loadBirds } from './components/birds';
 
 import { createControls } from './systems/controls';
@@ -24,7 +26,13 @@ export default class World {
     container.append(renderer.domElement);
 
     const { ambientLight, mainLight } = createLights();
-    this.scene.add(createGround(), createTestCube(), mainLight, ambientLight);
+    this.scene.add(
+      createGround(),
+      createTestCube(),
+      createSky(),
+      mainLight,
+      ambientLight,
+    );
 
     new Resizer(container, camera, renderer);
 
@@ -36,10 +44,10 @@ export default class World {
 
   async init() {
     const { parrot, flamingo, stork } = await loadBirds();
-    const { house } = await loadHouse();
+    const { car } = await loadCar();
     const { building } = await loadBuilding();
 
-    this.scene.add(building, house, parrot.model, flamingo.model, stork.model);
+    this.scene.add(building, car, parrot.model, flamingo.model, stork.model);
     this.loop.subscribe(parrot.onTick, flamingo.onTick, stork.onTick);
   }
 

@@ -10,11 +10,13 @@ import {
 import { pathToTexture } from '../utils/pathResolvers';
 
 function createGround() {
-  const geometry = new PlaneGeometry(250, 250);
+  const geometry = new PlaneGeometry(250, 250, 250, 250);
   const material = createMaterial();
 
   const ground = new Mesh(geometry, material);
+  ground.position.y = -0.45;
   ground.rotation.x = (Math.PI / 180) * -90;
+  ground.receiveShadow = true;
 
   return ground;
 }
@@ -34,8 +36,9 @@ function createMaterial() {
     roughnessMap: setWrapOpitons(
       textureLoader.load(pathToTexture('meadow/roughness')),
     ),
-    // displacementMap: setWrapOpitons(textureLoader.load(pathToTexture('meadow/height'))),
-    // wireframe: true,
+    displacementMap: setWrapOpitons(
+      textureLoader.load(pathToTexture('meadow/height')),
+    ),
   });
 }
 
