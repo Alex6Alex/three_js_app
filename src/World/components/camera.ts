@@ -1,4 +1,5 @@
 import { PerspectiveCamera } from 'three';
+import { Tickable } from '../world.types';
 
 function createCamera() {
   const camera = new PerspectiveCamera(50, 1, 0.1, 1000);

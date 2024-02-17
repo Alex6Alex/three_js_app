@@ -1,5 +1,6 @@
 import { Camera, WebGLRenderer } from 'three';
 import { FirstPersonControls } from 'three/addons/controls/FirstPersonControls.js';
+import { Tickable } from '../world.types';
 
 function createControls(camera: Camera, renderer: WebGLRenderer) {
   const controls = new FirstPersonControls(camera, renderer.domElement);

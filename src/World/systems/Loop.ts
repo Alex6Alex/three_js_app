@@ -1,4 +1,5 @@
 import { Scene, WebGLRenderer, Clock, PerspectiveCamera } from 'three';
+import { Tickable } from '../world.types';
 
 class Loop {
   private scene;
