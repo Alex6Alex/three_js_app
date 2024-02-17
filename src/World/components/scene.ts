@@ -1,4 +1,4 @@
-import { Scene, CubeTextureLoader } from 'three';
+import { Scene } from 'three';
 
 function createScene() {
   const scene = new Scene();

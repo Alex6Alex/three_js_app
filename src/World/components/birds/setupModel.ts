@@ -1,6 +1,8 @@
 import { AnimationMixer } from 'three';
 import { GLTF } from 'three/addons/loaders/GLTFLoader.js';
+
 import { withShadow } from '../../utils/castShadow';
+import { Tickable } from '../../world.types';
 
 function setupModel(data: GLTF) {
   const model = withShadow(data.scene.children[0]);
