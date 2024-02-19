@@ -3,13 +3,14 @@ import { createCamera } from './components/camera';
 import { createLights } from './components/lights';
 import { createGround } from './components/ground';
 import { createSky } from './components/sky';
+import { createCascadeShadows } from './components/shadows';
 import { createTestCube } from './components/test';
+import { createStats } from './components/stats';
 
 import { loadBuilding } from './components/building';
-import { loadCar } from './components/car';
 import { loadBirds } from './components/birds';
 
-import { createControls } from './systems/controls';
+import { createFirstPersonControls as createControls } from './systems/controls';
 import { createRenderer } from './systems/renderer';
 import { Resizer } from './systems/Resizer';
 import { Loop } from './systems/Loop';
@@ -25,29 +26,32 @@ export default class World {
     const renderer = createRenderer();
     container.append(renderer.domElement);
 
-    const { ambientLight, mainLight } = createLights();
-    this.scene.add(
-      createGround(),
-      createTestCube(),
-      createSky(),
-      mainLight,
-      ambientLight,
-    );
+    const { stats, onTick: statsOnTick } = createStats();
+    container.append(stats.dom);
+
+    const { ambientLight } = createLights();
+    const { onTick: shadowsOnTick } = createCascadeShadows(this.scene, camera);
+
+    this.scene.add(createGround(), createTestCube(), createSky(), ambientLight);
 
     new Resizer(container, camera, renderer);
 
     const { onTick: controlsOnTick } = createControls(camera, renderer);
 
     this.loop = new Loop(this.scene, camera, renderer);
-    this.loop.subscribe(cameraOnTick, controlsOnTick);
+    this.loop.subscribe(
+      cameraOnTick,
+      controlsOnTick,
+      statsOnTick,
+      shadowsOnTick,
+    );
   }
 
   async init() {
     const { parrot, flamingo, stork } = await loadBirds();
-    const { car } = await loadCar();
     const { building } = await loadBuilding();
 
-    this.scene.add(building, car, parrot.model, flamingo.model, stork.model);
+    this.scene.add(building, parrot.model, flamingo.model, stork.model);
     this.loop.subscribe(parrot.onTick, flamingo.onTick, stork.onTick);
   }
 

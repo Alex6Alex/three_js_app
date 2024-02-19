@@ -7,6 +7,7 @@ function createTestCube() {
 
   const cube = new Mesh(geometry, createMaterial());
   cube.castShadow = true;
+  cube.receiveShadow = true;
   cube.position.y = 1;
   // cube.position.set(0, 55, -1000);
 
