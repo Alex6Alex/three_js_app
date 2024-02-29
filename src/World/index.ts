@@ -4,13 +4,16 @@ import { createLights } from './components/lights';
 import { createGround } from './components/ground';
 import { createSky } from './components/sky';
 import { createCascadeShadows } from './components/shadows';
-import { createTestCube } from './components/test';
 import { createStats } from './components/stats';
+import { createGUI } from './components/gui';
+import { createPositioningInterface } from './components/positioningInterface';
 
 import { loadBuilding } from './components/building';
-import { loadBirds } from './components/birds';
+import { loadBuildings } from './components/buildings';
+import { loadTrain } from './components/train';
+import { loadRails } from './components/rails';
 
-import { createFirstPersonControls as createControls } from './systems/controls';
+import { createOrbitControls as createControls } from './systems/controls';
 import { createRenderer } from './systems/renderer';
 import { Resizer } from './systems/Resizer';
 import { Loop } from './systems/Loop';
@@ -32,7 +35,7 @@ export default class World {
     const { ambientLight } = createLights();
     const { onTick: shadowsOnTick } = createCascadeShadows(this.scene, camera);
 
-    this.scene.add(createGround(), createTestCube(), createSky(), ambientLight);
+    this.scene.add(createGround(), createSky(), ambientLight);
 
     new Resizer(container, camera, renderer);
 
@@ -48,11 +51,16 @@ export default class World {
   }
 
   async init() {
-    const { parrot, flamingo, stork } = await loadBirds();
     const { building } = await loadBuilding();
+    const { buildings } = await loadBuildings();
 
-    this.scene.add(building, parrot.model, flamingo.model, stork.model);
-    this.loop.subscribe(parrot.onTick, flamingo.onTick, stork.onTick);
+    const train = await loadTrain();
+    const { rails } = await loadRails();
+
+    this.scene.add(building, buildings, rails, train.model);
+    this.loop.subscribe(train.onTick);
+
+    createPositioningInterface(createGUI(), train.model);
   }
 
   run(): void {

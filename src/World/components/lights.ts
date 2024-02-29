@@ -5,7 +5,7 @@ function createLights() {
 
   mainLight.position.set(0, 55, -100);
 
-  const ambientLight = new HemisphereLight(0xedd4c0, 0x3c3c1c, 1.5);
+  const ambientLight = new HemisphereLight(0xf2ab7c, 0x3c3c1c, 1.5);
 
   return { mainLight, ambientLight };
 }

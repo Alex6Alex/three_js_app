@@ -4,6 +4,7 @@ function withShadow(model: Object3D) {
   model.traverse((node) => {
     if ((node as Mesh).isMesh) {
       node.castShadow = true;
+      node.receiveShadow = true;
     }
   });
 

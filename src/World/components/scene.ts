@@ -1,12 +1,9 @@
-import { Scene } from 'three';
+import { FogExp2, Scene } from 'three';
 
 function createScene() {
   const scene = new Scene();
 
-  // scene.background = new CubeTextureLoader()
-  //   .setPath('/assets/textures/sky_box/')
-  //   .load(['px.bmp', 'nx.bmp', 'py.bmp', 'ny.bmp', 'pz.bmp', 'nz.bmp']);
-
+  scene.fog = new FogExp2(0xbbbbbb, 0.005);
   return scene;
 }
 

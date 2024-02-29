@@ -12,7 +12,7 @@ function createCascadeShadows(scene: Scene, camera: Camera) {
     parent: scene,
     shadowMapSize: 1024,
     lightDirection: new Vector3(0, -0.2, 0.7).normalize(),
-    camera: camera,
+    camera,
   });
   cascadeShadows.fade = true;
 

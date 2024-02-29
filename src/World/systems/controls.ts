@@ -19,6 +19,8 @@ function createFirstPersonControls(camera: Camera, renderer: WebGLRenderer) {
 
 function createOrbitControls(camera: Camera, renderer: WebGLRenderer) {
   const controls = new OrbitControls(camera, renderer.domElement);
+  controls.target.z = -100;
+  controls.target.x = -80;
 
   const onTick: Tickable = (delta: number) => {
     controls.update(delta);
